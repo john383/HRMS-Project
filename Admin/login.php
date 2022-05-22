@@ -89,22 +89,24 @@
             var elem = document.getElementById('time_int');
 
             if(typeof(elem) != 'undefined' && elem != null){
-                var timeLeft = 10;
-                var elem = document.getElementById('time_int');
-                var timerId = setInterval(countdown, 1000);
-                
-                countdown()
-            }
-            function countdown() {
-                if (timeLeft == -1) {
-                    clearInterval(timerId);
-                            
-                    window.location.href='login.php';
-                } else {
-                    elem.innerHTML = 'Reached Login Attempts Limit! The username or password you typed is incorrect. Wait for ' + timeLeft + ' seconds.';
-                    timeLeft--;
-                    // localStorage.setItem('count_timer', timeLeft);
-                }
+                var counter = localStorage.getItem("time_left");
+                counter = counter ? counter : 31 ;
+
+                window.onbeforeunload = function() {
+                    if (counter > 0 && counter != null) {
+                        localStorage.setItem("time_left", counter);
+                    }
+                };
+                var interval = setInterval(function() {
+                    counter--;
+                    if (counter != -1 && counter != null) {
+                        document.getElementById("time_int").innerHTML = "Reached Login Attempts Limit! The email or password you typed is incorrect. Please wait for "+ counter + " seconds.";
+                    } else{
+                        localStorage.removeItem("time_left");
+                        clearInterval(interval);
+                        window.location.href = "login.php";                        
+                    };
+                }, 1000);
             }
         </script>
     </body>
