@@ -29,9 +29,7 @@
                 <h1 class="title">Admin Login</h1>
                 <?php
                     if(isset($_GET["error"])){
-                        if($_GET["error"] == "emptyinput"){
-                            echo "<div class='alert alert-danger text-center'><p> Fill in all fields! \n Login attempts: ".$_SESSION['admin_attempts']."/3</p></div>";
-                        }else if ($_GET["error"] == "wronglogin") {
+                        if ($_GET["error"] == "wronglogin") {
                             echo "<div class='alert alert-danger text-center'><p> Incorrect Information! \n Login attempts: ".$_SESSION['admin_attempts']."/3</p></div>";
                         }      
                     }
@@ -39,14 +37,14 @@
                 <div class="form-group">
                     <label for="email">Email</label>
                     <div class="input-group">
-                        <input type="email" name="email" placeholder="Email address" />
+                        <input type="email" name="email" placeholder="Email address" required/>
                         <i class="fa fa-envelope"></i>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
                     <div class="input-group">
-                        <input type="password" placeholder="Your Password" id="myInput" name="pwd" />
+                        <input type="password" placeholder="Your Password" autocomplete="off" id="myInput" name="pwd" required />
                         <span class="eye" onclick="myFunction()">
                             <i class="fa fa-eye" id="hide1"></i>
                             <i class="fa fa-eye-slash" id="hide2"></i>
