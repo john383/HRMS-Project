@@ -40,14 +40,14 @@
                 <div class="form-group">
                     <label for="email">Email</label>
                     <div class="input-group">
-                        <input type="email" name="email" placeholder="Email address" />
+                        <input type="email" name="email" placeholder="Email address" required/>
                         <i class="fa fa-envelope"></i>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
                     <div class="input-group">
-                        <input type="password" placeholder="Your Password" autocomplete="off" id="myInput" name="pwd" />
+                        <input type="password" placeholder="Your Password" autocomplete="off" id="myInput" name="pwd" required/>
                         <span class="eye" onclick="myFunction()">
                             <i class="fa fa-eye" id="hide1"></i>
                             <i class="fa fa-eye-slash" id="hide2"></i>
@@ -73,7 +73,6 @@
 
         <!-- <script src="Js/script.js"></script> -->
         <script>
-
             function myFunction() {
                 var x = document.getElementById("myInput");
                 var y = document.getElementById("hide1");
@@ -93,39 +92,25 @@
             var elem = document.getElementById('time_int');
 
             if(typeof(elem) != 'undefined' && elem != null){
-                var timeLeft = 180;
-                var elem = document.getElementById('time_int');
-                var timerId = setInterval(countdown, 1000);
-                
-                countdown()
-            }
-            function countdown() {
-                if (timeLeft == -1) {
-                    clearInterval(timerId);
-                            
-                    window.location.href='login.php';
-                } else {
-                    elem.innerHTML = 'Reached Login Attempts Limit! The username or password you typed is incorrect. Please contact the administrator for help . Wait for ' + timeLeft + ' seconds.';
-                    timeLeft--;
-                    // localStorage.setItem('count_timer', timeLeft);
-                }
-            }
+                var counter = localStorage.getItem("time_left");
+                counter = counter ? counter : 31 ;
 
-                // function countdown() {
-                //     var timeLeft = 179;
-                //     var timerId = setInterval(countdown, 1000);
-                    
-                //     if (timeLeft == -1) {
-                //         clearInterval(timerId);
-                        
-                //         window.location.href='login.php';
-                //     } else {
-                //         elem.innerHTML = 'Reached Login Attempts Limit! Wait for ' + timeLeft + ' seconds';
-                //         timeLeft--;
-                //         localStorage.setItem('count_timer', timeLeft);
-                //     }
-                // }
-            // countdown();
+                window.onbeforeunload = function() {
+                    if (counter > 0) {
+                        localStorage.setItem("time_left", counter);
+                    }
+                };
+                var interval = setInterval(function() {
+                    counter--;
+                    if (counter != -1 && counter != null) {
+                        document.getElementById("time_int").innerHTML = "Reached Login Attempts Limit! The email or password you typed is incorrect. Please contact the administrator for help . Wait for "+ counter + " seconds.";
+                    } else{
+                        localStorage.removeItem("time_left");
+                        clearInterval(interval);
+                        window.location.href = "login.php";                        
+                    };
+                }, 1000);
+            }
         </script>
     </body>
 </html>
