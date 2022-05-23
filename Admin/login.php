@@ -12,6 +12,9 @@
     if(!isset($_SESSION['admin_attempts'])){
         $_SESSION['admin_attempts'] = '0';
     }
+    if(isset($_SESSION['adminemail'])){
+        header("Location: index.php");
+    }
 ?>
 <!DOCTYPE html>
 <html>

@@ -12,7 +12,9 @@
     if(!isset($_SESSION['attempts'])){
         $_SESSION['attempts'] = '0';
     }
-    // echo "<script>alert(".$_SESSION['attempts'].")</script>";
+    if(isset($_SESSION['email'])){
+        header("Location: leave.php");
+    }
 ?>
 <!DOCTYPE html>
 <html>
