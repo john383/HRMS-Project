@@ -60,24 +60,15 @@
 			}
 		}	
 
-		// if (empty($midname)) {
-		// 	$middlenameErr = "Middle Name is required";
-		// 	$error = true;
-		// } else {
-			// check if name only contains letters and whitespace
-			if (!preg_match("/^[a-zA-Z-.'ñ-Ñ ]*$/",$midname)) {
-				$middlenameErr = "Only letters are allowed";
-				$error = true;
-			}
-		// }
+		if (!preg_match("/^[a-zA-Z-.'ñ-Ñ ]*$/",$midname)) {
+			$middlenameErr = "Only letters are allowed";
+			$error = true;
+		}
 
 		if (empty($address)) {
 			$addressErr = "Address is required";
 			$error = true;
 		}
-
-        $sql3 = "SELECT * FROM employees WHERE pNumber='$pnumber'";
-		$res3 = mysqli_query($conn, $sql3);
 
 		if (empty($pnumber)) {
 			$phoneErr = "Number is required";
@@ -89,14 +80,9 @@
 				$error = true;
 			}
 		}	
-        $sql4 = "SELECT * FROM employees WHERE contactpersonno='$contactpersonno'";
-		$res4 = mysqli_query($conn, $sql4);
 
-		if (empty($contactpersonno)) {
-			$contactpersonnoErr = "Number is required";
-			$error = true;
-		} else {
-				// check if name only contains letters and whitespace
+		if (!empty($contactpersonno)) {
+			// check if name only contains letters and whitespace
 			if (!preg_match("/(^\+?63(?!.*-.*-)(?!.*\+.*\+)(?:\d(?:-)?){10,11}$)|(^09(?!.*-.*-)(?!.*-.*-)(?:\d(?:-)?){9}$)/", $contactpersonno)) {
 				$contactpersonnoErr = "Invalid Number!";
 				$error = true;
