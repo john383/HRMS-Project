@@ -88,6 +88,46 @@
 				$error = true;
 			}
 		}
+
+        if (!empty($PHILHEALTH)) {
+			// check if name only contains letters and whitespace
+			if (!preg_match("/^[0-9]{12}$/", $PHILHEALTH)) {
+				$PHILHEALTHErr = "Invalid Number!";
+				$error = true;
+			}
+		}
+
+        if (!empty($TIN)) {
+			// check if name only contains letters and whitespace
+			if (!preg_match("/^[0-9]{12}$/", $TIN)) {
+				$TINErr = "Invalid Number!";
+				$error = true;
+			}
+		}
+
+        if (!empty($GSIS)) {
+			// check if name only contains letters and whitespace
+			if (!preg_match("/^[0-9]{11}$/", $GSIS)) {
+				$GSISErr = "Invalid Number!";
+				$error = true;
+			}
+		}
+
+        if (!empty($SSS)) {
+			// check if name only contains letters and whitespace
+			if (!preg_match("/^[0-9]{10}$/", $SSS)) {
+				$SSSErr = "Invalid Number!";
+				$error = true;
+			}
+		}
+
+        if (!empty($PAGIBIG)) {
+			// check if name only contains letters and whitespace
+			if (!preg_match("/^[0-9]{12}$/", $PAGIBIG)) {
+				$PAGIBIGErr = "Invalid Number!";
+				$error = true;
+			}
+		}
         
         if($error == true){
 			echo "<script>alert('Failed To Update!')</script>";
@@ -221,7 +261,7 @@
                                     </div>
                                     <div class="col">
 				                        <label for="recipient-name" class="col-form-label">PhilHealth No.:</label>
-				                        <input type="text" class="form-control" name="PHILHEALTH" id="PHILHEALTH" value="<?php echo $row['philhealth'];?>">
+				                        <input type="text" class="form-control" name="PHILHEALTH" id="PHILHEALTH" maxlength="12" value="<?php echo $row['philhealth'];?>">
                                         <span class="form-error"><?php echo $PHILHEALTHErr;?></span>
 				                    </div>
                                 </div>                
@@ -230,12 +270,12 @@
 				                <div class="row">
 									<div class="col">
 										<label for="recipient-name" class="col-form-label">GSIS No.:</label>
-										<input type="text" class="form-control" name="GSIS" id="GSIS" value="<?php echo $row['gsis'];?>">
+										<input type="text" class="form-control" name="GSIS" id="GSIS" maxlength="11" value="<?php echo $row['gsis'];?>">
 										<span class="form-error"><?php echo $GSISErr;?></span>
 									</div>
 				                    <div class="col">
 				                        <label for="recipient-name" class="col-form-label">SSS No.:</label>
-				                        <input type="text" class="form-control" name="SSS" id="SSS" value="<?php echo $row['sss'];?>">
+				                        <input type="text" class="form-control" name="SSS" id="SSS" maxlength="10" value="<?php echo $row['sss'];?>">
                                         <span class="form-error"><?php echo $SSSErr;?></span>
 				                    </div>
 				                </div>
@@ -244,12 +284,12 @@
 				                <div class="row">
 									<div class="col-md-6">
 										<label for="recipient-name" class="col-form-label">TIN No.:</label>
-										<input type="text" class="form-control" name="TIN" id="TIN" value="<?php echo $row['tin'];?>">
+										<input type="text" class="form-control" name="TIN" id="TIN" maxlength="12" value="<?php echo $row['tin'];?>">
 										<span class="form-error"><?php echo $TINErr;?></span>
 									</div>
 				                    <div class="col-md-6">
 				                        <label for="recipient-name" class="col-form-label">PagIbig No.:</label>
-				                        <input type="text" class="form-control" name="PAGIBIG" id="PAGIBIG" value="<?php echo$row['pagibig'];?>">
+				                        <input type="text" class="form-control" name="PAGIBIG" id="PAGIBIG" maxlength="12" value="<?php echo$row['pagibig'];?>">
                                         <span class="form-error"><?php echo $PAGIBIGErr;?></span>
 				                    </div>
 								</div>
