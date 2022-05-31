@@ -135,6 +135,20 @@
 <?php
 	}
 ?>
+<?php
+	if(isset($_POST['active_id'])){
+		$emailadd = print_r($_SESSION['adminemail'], TRUE);
+
+?>
+		<div class="col">
+			<label for="resetemp_pass">Admin Password: </label>
+			<input type="password" class="form-control" autocomplete="off" name="admin_pass" placeholder="Enter Admin Password" />
+			<input type="hidden" name="emp_id" value="<?php echo $_POST['active_id']?>">
+			<input type="hidden" name="adminemail" value="<?php echo $emailadd?>">
+		</div>
+<?php
+	}
+?>
 
 
 	<script>

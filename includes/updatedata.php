@@ -1,5 +1,6 @@
 <?php
     include("connection.inc.php");
+
     if(isset($_POST['edit_id'])){
         $id = mysqli_real_escape_string($conn, $_POST['edit_id']);
         $empid = mysqli_real_escape_string($conn, $_POST['empId']);
@@ -70,9 +71,7 @@
                 if($checkPwd === false){
                     echo "<script>alert('Failed to Reset Password')</script>";
                     return false;
-        
                 }else if($checkPwd === true){
-
                     $sql2 = "UPDATE employees SET password = ? WHERE empId = ?";
                     $stmt1 = mysqli_stmt_init($conn);
                     if(!mysqli_stmt_prepare($stmt1, $sql2)){
@@ -92,5 +91,46 @@
         }
     }
 ?>
+<?php
+    if(isset($_POST['emp_id'])){
+        $emp_id = mysqli_real_escape_string($conn, $_POST['emp_id']);
+        $adminemail = mysqli_real_escape_string($conn, $_POST['adminemail']);
+        $resetpassword = mysqli_real_escape_string($conn, $_POST['admin_pass']);
+        $status = mysqli_real_escape_string($conn, 'Active');
 
+        $sql = "SELECT * FROM admin WHERE email = ?";
+        $stmt = mysqli_stmt_init($conn);
+        if(!mysqli_stmt_prepare($stmt, $sql)){
+            return false;
+        }else{
+            mysqli_stmt_bind_param($stmt, "s", $adminemail);
+            mysqli_stmt_execute($stmt);
 
+            $resultdata = mysqli_stmt_get_result($stmt);
+            if($row = mysqli_fetch_assoc($resultdata)){
+                // $pwdHashed = $row["password"];
+                $checkPwd = password_verify($resetpassword, $row["password"]);
+
+                if($checkPwd === false){
+                    echo "<script>alert('Failed to Activate Employee')</script>";
+                    return false;
+                }else if($checkPwd === true){
+
+                    $sql2 = "UPDATE employees SET status = ? WHERE empId = ?";
+                    $stmt1 = mysqli_stmt_init($conn);
+                    if(!mysqli_stmt_prepare($stmt1, $sql2)){
+                        return false;
+                    }else{
+                        mysqli_stmt_bind_param($stmt1, "ss", $status, $emp_id);
+                        mysqli_stmt_execute($stmt1);
+
+                        mysqli_stmt_close($stmt1);
+                        return true;
+                    }
+                }
+            }else{
+                return false;
+            }
+        }
+    }
+?>

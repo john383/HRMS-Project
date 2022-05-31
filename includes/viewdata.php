@@ -60,6 +60,7 @@
 															
 				<?php if($row['status'] != "Active"){
 					echo "<p><b>Service Rendered: </b>".$rendered_date->format('%y years, %m months, %d days')."</p>";
+					echo '<a class="btn btn-primary add_emp activate_emp" id="'.$row['empId'].'">Activate</a>';
 				}else{
 					echo '<a class="btn btn-primary add_emp resetpass" id="'.$row['empId'].'">Reset Password</a>';
 				} ?>
@@ -132,6 +133,30 @@
     </div>
 </div>
 
+<!-- Activate Employee -->
+<div class="modal" id="activate_emp_status">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Confirm Action</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="" method="POST" id="activate_Form">
+                <!-- Modal body -->
+                <div class="modal-body active_emp">
+
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Close</button>
+                    <button type="button" class="btn btn-primary" id="activate_data">Proceed</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function() {
         $('.resetpass').click(function() {
@@ -163,5 +188,35 @@
 				}
 			}); 
 		});		
+
+		$('.activate_emp').click(function() {
+            active_id = $(this).attr('id');
+            $.ajax({
+                url: "../includes/editdata.php",
+                method :'post',
+                data:{active_id:active_id},
+                success: function(result){
+                    $(".active_emp").html(result);
+                    $('#activate_emp_status').modal('show');
+                }
+            });
+        });	
+		$(document).on('click', '#activate_data', function(){
+			$.ajax({
+				url: "../includes/updatedata.php",
+				method :'post',
+				data:$("#activate_Form").serialize(),
+				success: function(data){
+					if (data == 0) {
+                        $('#activate_emp_status').modal('hide');
+                        alert('Employee Successfully Activated');
+                        window.location.href="personnel.php";
+					} else {
+                        alert('Failed to Activate Employee');
+						window.location.href="personnel.php";
+					}
+				}
+			}); 
+		});	
     });	
 </script>
