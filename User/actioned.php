@@ -31,7 +31,7 @@
 
     $id = print_r($_SESSION["empId"], TRUE);
     $sql = "SELECT * FROM leave_taken INNER JOIN leave_type ON leave_type.LeaveId = leave_taken.leaveId WHERE 
-            empId=".$id." AND month(startDate) = ".$month." AND year(startDate) = ".$year." AND leave_status = 'Approved' OR leave_status = 'Rejected' OR leave_status = 'Cancelled'";
+            empId=".$id." AND month(startDate) = ".$month." AND year(startDate) = ".$year." AND NOT leave_status = 'Pending'";
     $result = mysqli_query($conn, $sql);  
 ?>
     <nav>
@@ -88,7 +88,6 @@
 								    <th scope="col" class="text-center">Status</th>
                                     <th scope="col" class="text-center">Remarks</th>
                                     <th scope="col" class="text-center">Date Actioned</th>
-                                    <!-- <th scope="col" class="text-center">Action</th> -->
                                 </tr>
                             </thead>
                             <tbody class="leave_display">
@@ -142,7 +141,6 @@
                 data: {"actionedmonth":month, "actionedyear":year},
                 success: function(data){
                     $(".table-responsive").html(data);
-                    // alert(year)
                 }
             }); 
         }

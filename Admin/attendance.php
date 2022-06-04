@@ -117,8 +117,8 @@
                 url: "../includes/fetch.php",
                 type: "POST",
                 data: {"attend_month":attend_month, "attend_year":attend_year},
-                success: function(data){
-                    $(".table-responsive").html(data);
+                success: function(result){
+                    $(".table-responsive").html(result);
                     // alert(year)
                 }
             }); 

@@ -31,7 +31,7 @@
 
     $id = print_r($_SESSION["empId"], TRUE);
     $sql = "SELECT * FROM leave_taken INNER JOIN leave_type ON leave_type.LeaveId = leave_taken.leaveId WHERE 
-            empId=".$id." AND month(startDate) = ".$month." AND year(startDate) = ".$year." AND leave_status = 'Pending'";
+            empId=".$id." AND leave_status = 'Pending'";
     $result = mysqli_query($conn, $sql);  
 ?>
     <nav>
@@ -49,37 +49,6 @@
         <div class="home-content">
         <div class="cardbox">
             <div class="graphbox">
-			   <div class="year-box">
-			        <label for="months" class="selectMonth">Select Month:</label>
-                    <?php
-                        $selected_month = date('m'); //current month
-                    ?>
-                    <select id="month" name="month" onchange="getleave()">
-                        <option value='01' <?php echo $selected_month == 1 ? ' selected' : ''?>>January</option>
-                        <option value='02' <?php echo $selected_month == 2 ? ' selected' : ''?>>February</option>
-                        <option value='03' <?php echo $selected_month == 3 ? ' selected' : ''?>>March</option>
-                        <option value='04' <?php echo $selected_month == 4 ? ' selected' : ''?>>April</option>
-                        <option value='05' <?php echo $selected_month == 5 ? ' selected' : ''?>>May</option>
-                        <option value='06' <?php echo $selected_month == 6 ? ' selected' : ''?>>June</option>
-                        <option value='07' <?php echo $selected_month == 7 ? ' selected' : ''?>>July</option>
-                        <option value='08' <?php echo $selected_month == 8 ? ' selected' : ''?>>August</option>
-                        <option value='09' <?php echo $selected_month == 9 ? ' selected' : ''?>>September</option>
-                        <option value='10' <?php echo $selected_month == 10 ? ' selected' : ''?>>October</option>
-                        <option value='11' <?php echo $selected_month == 11 ? ' selected' : ''?>>November</option>
-                        <option value='12' <?php echo $selected_month == 12 ? ' selected' : ''?>>December</option>
-                    </select>
-
-                    
-				    <label for="years" class="selectYr mb-3">Select Year:</label>
-                    <?php 
-                        echo '<select id="year" name="year" onchange="getleave()">'."\n";
-                        for ($i = date('Y'); $i >= 2020; $i--){
-                            $selected = (date('Y') == $i ? ' selected' : '');
-                            echo '<option value="'.$i.'"'.$selected.'>'.$i.'</option>'."\n";
-                        }
-                        echo '</select>'."\n";
-                    ?>
-				</div>
                 <button type="button" class="btn btn-primary mb-3 add_btn" data-bs-toggle="modal" data-bs-target="#addemp">Add Leave</button>
                 <!-- <div class="year-box"> -->
                     <div class="table-responsive">
@@ -114,8 +83,8 @@
                                         </td>
                                         <td name="remainingdays" class="text-center"><?php echo $row['leave_reason']?></td>
                                         <td name="remainingdays" class="text-center"><?php echo $row['leave_status']?></td>
-                                        <!-- <td name="remainingdays" class="text-center"><?php echo $row['remarks']?></td>
-                                        <td name="remainingdays" class="text-center"><?php echo $row['date_actioned']?></td> -->
+                                        <!-- <td name="remainingdays" class="text-center"><1?php echo $row['remarks']?></td>
+                                        <td name="remainingdays" class="text-center"><1?php echo $row['date_actioned']?></td> -->
                                         <td class="text-center">
                                             <?php
                                                 if($row['leave_status'] != "Cancelled"){

@@ -9,7 +9,7 @@
         INNER JOIN leave_type on leave_type.LeaveId=leave_taken.leaveId WHERE  month(startDate) = ".$month." AND year(startDate) = ".$year." AND leave_status = 'Approved' OR leave_status = 'Rejected'";
         $result = mysqli_query($conn, $sql);  
 ?>
-        <table class="table table-bordered table-hover" id="example2"  style="width: 100%;">
+        <table class="table table-bordered table-hover align-middle" id="example"  style="width: 100%;">
             <thead>
                 <tr>
                     <th scope="col" class="text-center">Name</th>
@@ -66,14 +66,12 @@
         $sql = "SELECT * FROM leave_taken INNER JOIN leave_type ON leave_type.LeaveId = leave_taken.leaveId WHERE empId=".$id." AND month(startDate) = ".$month." AND year(startDate) = ".$year." AND leave_status = 'Pending'";
         $result = mysqli_query($conn, $sql);  
         ?>
-        <table class="table table-bordered table-hover align-middle" id="example2"  style="width: 100%;">
+        <table class="table table-bordered table-hover align-middle" id="example"  style="width: 100%;">
             <thead>
                 <tr>
                     <th scope="col" class="text-center">Leave Info</th>
 					<th scope="col" class="text-center">Reason</th>
 					<th scope="col" class="text-center">Status</th>
-                    <!-- <th scope="col" class="text-center">Remarks</th>
-                    <th scope="col" class="text-center">Date Actioned</th> -->
                     <th scope="col" class="text-center">Action</th>
                 </tr>
             </thead>
@@ -97,8 +95,6 @@
                         </td>
                         <td name="remainingdays" class="text-center"><?php echo $row['leave_reason']?></td>
                         <td name="remainingdays" class="text-center"><?php echo $row['leave_status']?></td>
-                        <!-- <td name="remainingdays" class="text-center"><1?php echo $row['remarks']?></td>
-                        <td name="remainingdays" class="text-center"><1?php echo $row['date_actioned']?></td> -->
                         <td class="text-center">
                             <?php
                                 if($row['leave_status'] != "Cancelled"){
@@ -126,10 +122,10 @@
         $id = print_r($_SESSION["empId"], TRUE);
 
         $sql = "SELECT * FROM leave_taken INNER JOIN leave_type ON leave_type.LeaveId = leave_taken.leaveId WHERE 
-                empId=".$id." AND month(startDate) = ".$month." AND year(startDate) = ".$year." AND leave_status = 'Approved' OR leave_status = 'Rejected'";
+                empId=".$id." AND month(startDate) = ".$month." AND year(startDate) = ".$year." AND NOT leave_status = 'Pending'";
         $result = mysqli_query($conn, $sql);  
 ?>
-        <table class="table table-bordered table-hover align-middle" id="example2"  style="width: 100%;">
+        <table class="table table-bordered table-hover align-middle" id="example"  style="width: 100%;">
             <thead>
                 <tr>
                     <th scope="col" class="text-center">Leave Info</th>
@@ -162,15 +158,6 @@
                         <td name="remainingdays" class="text-center"><?php echo $row['leave_status']?></td>
                         <td name="remainingdays" class="text-center"><?php echo $row['remarks']?></td>
                         <td name="remainingdays" class="text-center"><?php echo $row['date_actioned']?></td>
-                        <!-- <td class="text-center">
-                            <1?php
-                                if($row['leave_status'] != "Cancelled"){
-                                    echo "<button type='button' class='btn btn-success edit_btn' id=".$row['period_id']." title='Update'><i class='fa fa-pencil-square-o'></i></button>";
-                                }else{
-                                    echo "<button type='button' class='btn btn-danger edit_btn' disabled id=".$row['period_id']." title='Cancelled'><i class='fa fa-pencil-square-o'></i></button>";
-                                }
-                            ?>
-                        </td> -->
                     </tr>
 <?php                                                                      
                 }
@@ -191,7 +178,7 @@
             WHERE month(date) = ".$month." AND year(date) = ".$year." ORDER BY attendId ASC";
         $result = mysqli_query($conn, $sql);        
 ?>
-    <table class="table table-bordered table-hover year-box" id="example2"  style="width: 100%;">
+    <table class="table table-bordered table-hover year-box" id="example"  style="width: 100%;">
         <thead>
             <tr>
                 <!-- <th scope="col">Date</th> -->
@@ -419,7 +406,9 @@
 
 <?php
     }
+    if (!empty($month2)){
 ?>
+
 <script>
     const labels = <?php echo json_encode($month2)?>;
     const data = {
@@ -459,11 +448,20 @@
 
     const myChart = new Chart(document.getElementById("myChart"), config);
 </script>
+<?php } ?>
 <script>
     $(document).ready(function() {
-        $('#example2').DataTable({
+        $('#example').DataTable({
             "pagingType": "full_numbers"
         }); 
+        });
+</script>
+<?php 
+    if (!empty($months)){
+?>
+<script>
+    $(document).ready(function() {
+        
         $('#example1').DataTable({
             "pagingType": "full_numbers",
             dom: 'Bfrtip',
@@ -491,6 +489,8 @@
         }); 
     });
 </script>
+<?php
+    }
+?>
 <?php  include 'attendance_modals.php';?>
 <?php  include 'leave_modals.php';?>
-
