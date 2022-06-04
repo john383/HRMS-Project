@@ -7,16 +7,28 @@
         $id = mysqli_real_escape_string($conn, $_POST['edit_id']);
         $reason = mysqli_real_escape_string($conn, $_POST['reason']);
         $status = mysqli_real_escape_string($conn, $_POST['update_stat']);
-            
+        $leave_hrs = mysqli_real_escape_string($conn, $_POST['leave_hrs']);
+        $employee_id = mysqli_real_escape_string($conn, $_POST['employee_id']);
+        $leaveId = mysqli_real_escape_string($conn, $_POST['empleave_id']);
+
         $updatesql2 = "UPDATE leave_taken SET leave_reason = ?, leave_status = ? WHERE period_id = ?";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $updatesql2)){
             echo "<script>alert('SQL Error!')
             window.location.href='../Admin/manage_leaves.php?error=stmtfailed'</script>";
-            exit();
+            exit(0);
         }else{
             mysqli_stmt_bind_param($stmt, "ssi", $reason, $status, $id);
             mysqli_stmt_execute($stmt);
+            if($status == "Cancelled"){
+                $updatesql1 = "SELECT remaining_hours FROM emp_annual_leave WHERE empId = '$employee_id' AND leaveId = '$leaveId'";
+                $results = mysqli_query($conn, $updatesql1);
+                $row = mysqli_fetch_array($results);
+                $leavetotal = $row['remaining_hours'] + $leave_hrs;
+
+                $updatesql2 = "UPDATE emp_annual_leave SET remaining_hours = '$leavetotal' WHERE empId = '$employee_id' AND leaveId = '$leaveId'";
+                $results1 = mysqli_query($conn, $updatesql2);
+            }
         }
     }
 ?>
@@ -33,38 +45,28 @@
         $sql = "SELECT * FROM emp_annual_leave WHERE empId = '$employee_id' AND leaveId = '$leaveId'";
         $result = mysqli_query($conn, $sql);
         $update_empleave_row = mysqli_fetch_array($result);
-        $remaining_hrs = $update_empleave_row['remaining_hours'] - $hrs_taken;
         $date_now = date('Y-m-d H:i:s');
 
-        if($update_stat == 'Approved'){
-            
-            $updatesql1 = "UPDATE leave_taken SET leave_status = ?, remarks = ?, date_actioned = ? WHERE period_id = ?";
+        if($update_stat != 'Approved'){
+            $updatesql = "UPDATE leave_taken SET leave_status = ?, remarks = ?, date_actioned = ? WHERE period_id = ?";
             $stmt = mysqli_stmt_init($conn);
-            if(!mysqli_stmt_prepare($stmt, $updatesql1)){
+            if(!mysqli_stmt_prepare($stmt, $updatesql)){
                 echo "<script>alert('SQL Error!')
                 window.location.href='../Admin/manage_leaves.php?error=stmtfailed'</script>";
                 exit(0);
             }else{
                 mysqli_stmt_bind_param($stmt, "sssi", $update_stat, $remarks, $date_now, $id);
                 mysqli_stmt_execute($stmt);
+                
+                $updatesql1 = "SELECT remaining_hours FROM emp_annual_leave WHERE empId = '$employee_id' AND leaveId = '$leaveId'";
+                $results = mysqli_query($conn, $updatesql1);
+                $row = mysqli_fetch_array($results);
+                $leavetotal = $row['remaining_hours'] + $hrs_taken;
 
-                $update_emp_leave = "UPDATE emp_annual_leave SET remaining_hours = '$remaining_hrs' WHERE empId = '$employee_id' AND leaveId = '$leaveId'";
-                $update_result = mysqli_query($conn, $update_emp_leave);
+                $updatesql2 = "UPDATE emp_annual_leave SET remaining_hours = '$leavetotal' WHERE empId = '$employee_id' AND leaveId = '$leaveId'";
+                $results1 = mysqli_query($conn, $updatesql2);
                 mysqli_stmt_close($stmt);
-    
-            }
-        }else{
-            $updatesql1 = "UPDATE leave_taken SET leave_status = ?, remarks = ?, date_actioned = ? WHERE period_id = ?";
-            $stmt = mysqli_stmt_init($conn);
-            if(!mysqli_stmt_prepare($stmt, $updatesql1)){
-                echo "<script>alert('SQL Error!')
-                window.location.href='../Admin/manage_leaves.php?error=stmtfailed'</script>";
-                exit();
-            }else{
-                mysqli_stmt_bind_param($stmt, "sssi", $update_stat, $remarks, $date_now, $id);
-                mysqli_stmt_execute($stmt);
-                mysqli_stmt_close($stmt);
-    
+
             }
         }
     }

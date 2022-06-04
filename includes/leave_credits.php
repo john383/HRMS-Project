@@ -20,8 +20,12 @@
     $results = mysqli_query($conn, $query1);
     while($rows = mysqli_fetch_array($results)){
         $remaining = floor($rows['remaining_hours']/$diff);
-        echo $rows['remaining_hours'], " hours or ".$remaining, " days";
+        if($rows['remaining_hours'] == 0){
+            return false;
+        }else{
+            echo $rows['remaining_hours'], " hours or ".$remaining, " days";
+            return true;
+        }
     }
-
     
 ?>

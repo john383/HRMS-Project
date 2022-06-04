@@ -15,7 +15,9 @@
             $day = $row['day_type'];
 ?>			
 		<input type="hidden" name="edit_id" id="edit_id" class="form-control" value="<?php echo $id?>">             
-
+		<input type="hidden" name="employee_id" class="form-control" value="<?php echo $row['empId']?>">             
+        <input type='hidden' name='leave_hrs' value="<?php echo $row['total_leavehrs']?>">
+        <input type='hidden' name='empleave_id' value="<?php echo $row['leaveId']?>">
         <div class="mb-1">
             <div class="row">
                 <div class="col">

@@ -24,7 +24,7 @@
                 <button type="button" class="btn btn-primary mb-3 add_emp" data-bs-toggle="modal" data-bs-target="#addleavetype">Add Leave Type</button>
                 <!-- <div class="year-box"> -->
                     <div class="table-responsive">
-                        <table class="table table-sm table-bordered table-hover align-middle" id="example" width: 100%; height: 100%;>
+                        <table class="table table-bordered table-hover align-middle" id="example" width: 100%; height: 100%;>
                             <thead>
                                 <tr>
                                     <th scope="col" class="text-center">Leave Code</th>
@@ -37,8 +37,7 @@
                             </thead>
                             <tbody>
                             <?php
-                                if(mysqli_num_rows($result) > 0){
-                                    while($row = mysqli_fetch_array($result)){
+                                while($row = mysqli_fetch_array($result)){
                             ?>
                                 <tr>
 									<input type="hidden" id="LeaveId" name="LeaveId" value="LeaveId">
@@ -52,12 +51,6 @@
                                     </td>
                                 </tr>
                             <?php
-                                    }
-                                }else{
-                                    echo '
-                                    <tr>
-                                    <td scope="row" colspan="8">No Data Found!</td>
-                                </tr>';
                                 }
                             ?>
                             </tbody>

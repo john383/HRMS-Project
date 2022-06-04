@@ -336,7 +336,8 @@
             data:{id:leaveId},
             success:function(data){
                 $("#credits").html(data);
-                if(data <=  1){
+                if(data <  1){
+                    $('#selectleave').val("0 hours and 0 days")
 					$('#selectleave').closest('.col').append('<div class="alert alert-danger err-msg text-center" id="my-element">You dont have an available credits with the selected leave type.</div>')
 					$('#select_session').hide()
 				}else{

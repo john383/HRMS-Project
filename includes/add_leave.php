@@ -66,6 +66,13 @@
 					$result = mysqli_query($conn, $sql);
 				
 					if($result){
+						$sql1 = "SELECT remaining_hours FROM emp_annual_leave WHERE empId = '$empid' AND leaveId = '$leave'";
+						$results = mysqli_query($conn, $sql1);
+						$row = mysqli_fetch_array($results);
+						$leavetotal = $row['remaining_hours'] - $hours;
+
+						$sql2 = "UPDATE emp_annual_leave SET remaining_hours = '$leavetotal' WHERE empId = '$empid' AND leaveId = '$leave'";
+						$results1 = mysqli_query($conn, $sql2);
 						echo '<script>alert("1 Record Added");</script>';
 						echo"<script>window.location.href = 'leave.php';</script>";
 				
@@ -76,7 +83,7 @@
 					}
 				}
 			}else if($day_type == 'Hours'){
-				if($totalhrs > $diff_half){
+				if($totalhrs >= $diff1){
 					echo "<script>alert('Selected hour is not applicable for $day_type type. Please try again.')</script>";
 					?>
 						<script>
@@ -91,6 +98,12 @@
 					$result = mysqli_query($conn, $sql);
 				
 					if($result){
+						$sql1 = "SELECT remaining_hours FROM emp_annual_leave WHERE empId = '$empid' AND leaveId = '$leave'";
+						$results = mysqli_query($conn, $sql1);
+						$row = mysqli_fetch_array($results);
+						$leavetotal = $row['remaining_hours'] - $totalhrs;
+						$sql2 = "UPDATE emp_annual_leave SET remaining_hours = '$leavetotal' WHERE empId = '$empid' AND leaveId = '$leave'";
+						$results1 = mysqli_query($conn, $sql2);
 						echo '<script>alert("1 Record Added");</script>';
 						echo"<script>window.location.href = 'leave.php';</script>";
 				
@@ -106,6 +119,13 @@
 				$result = mysqli_query($conn, $sql);
 			
 				if($result){
+					$sql1 = "SELECT remaining_hours FROM emp_annual_leave WHERE empId = '$empid' AND leaveId = '$leave'";
+					$results = mysqli_query($conn, $sql1);
+					$row = mysqli_fetch_array($results);
+					$leavetotal = $row['remaining_hours'] - $totalhrs1;
+
+					$sql2 = "UPDATE emp_annual_leave SET remaining_hours = '$leavetotal' WHERE empId = '$empid' AND leaveId = '$leave'";
+					$results1 = mysqli_query($conn, $sql2);
 					echo '<script>alert("1 Record Added");</script>';
 					echo"<script>window.location.href = 'leave.php';</script>";
 			
@@ -142,6 +162,12 @@
 					$result = mysqli_query($conn, $sql);
 				
 					if($result){
+						$sql1 = "SELECT remaining_hours FROM emp_annual_leave WHERE empId = '$empid' AND leaveId = '$leave'";
+						$results = mysqli_query($conn, $sql1);
+						$row = mysqli_fetch_array($results);
+						$leavetotal = $row['remaining_hours'] - $hours;
+						$sql2 = "UPDATE emp_annual_leave SET remaining_hours = '$leavetotal' WHERE empId = '$empid' AND leaveId = '$leave'";
+						$results1 = mysqli_query($conn, $sql2);
 						echo '<script>alert("1 Record Added");</script>';
 						echo"<script>window.location.href = 'leave.php';</script>";
 				
@@ -167,6 +193,12 @@
 					$result = mysqli_query($conn, $sql);
 				
 					if($result){
+						$sql1 = "SELECT remaining_hours FROM emp_annual_leave WHERE empId = '$empid' AND leaveId = '$leave'";
+						$results = mysqli_query($conn, $sql1);
+						$row = mysqli_fetch_array($results);
+						$leavetotal = $row['remaining_hours'] - $totalhrs1;
+						$sql2 = "UPDATE emp_annual_leave SET remaining_hours = '$leavetotal' WHERE empId = '$empid' AND leaveId = '$leave'";
+						$results1 = mysqli_query($conn, $sql2);
 						echo '<script>alert("1 Record Added");</script>';
 						echo"<script>window.location.href = 'leave.php';</script>";
 				
@@ -176,25 +208,42 @@
 						history.go(-1)</script>";
 					}
 				}
-			}else{
-				$sql = "INSERT INTO leave_taken (empId, leaveId, day_type, startDate, leave_reason, total_leavehrs, leave_status)
-				VALUES('$empid','$leave', '$day_type', '$start','$reason', '$totalhrs', '$status')";
-				$result = mysqli_query($conn, $sql);
-			
-				if($result){
-					echo '<script>alert("1 Record Added");</script>';
-					echo"<script>window.location.href = 'leave.php';</script>";
-			
+			}else if($day_type == 'Hours'){
+				if($totalhrs >= $diff1){
+					echo "<script>alert('Selected hour is not applicable for $day_type type. Please try again.')</script>";
+					?>
+						<script>
+							$(document).ready(function () {
+								$('#addemp').modal('show');
+							});
+						</script>			
+					<?php
 				}else{
-					echo '<script>alert("Data Not Saved");</script>';
-					echo"<script>
-					history.go(-1)</script>";
+					$sql = "INSERT INTO leave_taken (empId, leaveId, day_type, startDate, leave_reason, total_leavehrs, leave_status)
+					VALUES('$empid','$leave', '$day_type', '$start','$reason', '$totalhrs', '$status')";
+					$result = mysqli_query($conn, $sql);
+				
+					if($result){
+						$sql1 = "SELECT remaining_hours FROM emp_annual_leave WHERE empId = '$empid' AND leaveId = '$leave'";
+						$results = mysqli_query($conn, $sql1);
+						$row = mysqli_fetch_array($results);
+						$leavetotal = $row['remaining_hours'] - $totalhrs;
+						$sql2 = "UPDATE emp_annual_leave SET remaining_hours = '$leavetotal' WHERE empId = '$empid' AND leaveId = '$leave'";
+						$results1 = mysqli_query($conn, $sql2);
+						echo '<script>alert("1 Record Added");</script>';
+						echo"<script>window.location.href = 'leave.php';</script>";
+				
+					}else{
+						echo '<script>alert("Data Not Saved");</script>';
+						echo"<script>
+						history.go(-1)</script>";
+					}
 				}
 			}			
 		}
 
 	}
-
+	
 	class CountWorkingHours{
         // Define hours counted for each day:
         public array $hours = [];
