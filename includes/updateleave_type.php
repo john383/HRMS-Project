@@ -15,6 +15,9 @@
             }else{
                 mysqli_stmt_bind_param($stmt, "ssii", $leaveName, $Description, $def_hrs, $LeaveId);
                 mysqli_stmt_execute($stmt);
+
+                $updatesql = "UPDATE emp_annual_leave SET  allowed_hours = ".$def_hrs."  WHERE leaveId = ".$LeaveId." AND annual_leave_status = 'Active'";
+                $res_update = mysqli_query($conn, $updatesql);
                 echo "<script> alert('Data Successfully Updated');
                       window.location.href = 'leave_type.php';</script>";
             }

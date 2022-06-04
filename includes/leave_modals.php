@@ -322,7 +322,6 @@
                 success: function(result){
                     $('#editleavetype').modal('hide');
                     alert('Data Successfully Updated');
-                    // window.location.href = '../Admin/leave_type.php';
                     location.reload();
                 }
             });

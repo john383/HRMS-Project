@@ -47,7 +47,7 @@
                                     <td name="default_hrs" class="text-center"><?php echo $row['default_hours']; ?></td>
                                     <td name="dept" class="text-center"><?php echo $row['deptName']; ?></td>
                                     <td name="dept" class="text-center"><?php echo $row['employment_type']; ?></td>
-                                    <td>
+                                    <td class="text-center">
                                         <button type="button" class="btn btn-success updateleavebtn" id="<?php echo $row['LeaveId'];?>" title="Update"><i class="fa fa-pencil-square-o" ></i></button>
                                     </td>
                                 </tr>
