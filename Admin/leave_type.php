@@ -22,17 +22,17 @@
         <div class="cardbox">
             <div class="graphbox">
                 <button type="button" class="btn btn-primary mb-3 add_emp" data-bs-toggle="modal" data-bs-target="#addleavetype">Add Leave Type</button>
-                <div class="year-box">
+                <!-- <div class="year-box"> -->
                     <div class="table-responsive">
-                        <table class="table table-sm table-bordered table-hover align-middle" width: 100%; height: 100%;>
+                        <table class="table table-sm table-bordered table-hover align-middle" id="example" width: 100%; height: 100%;>
                             <thead>
                                 <tr>
-                                    <th scope="col">Leave Code</th>
-                                    <th scope="col">Leave Name</th>
-                                    <th scope="col">Default Hours</th>
-                                    <th scope="col">Department</th>
-                                    <th scope="col">Employment Type</th>
-                                    <th scope="col">Action</th>
+                                    <th scope="col" class="text-center">Leave Code</th>
+                                    <th scope="col" class="text-center">Leave Name</th>
+                                    <th scope="col" class="text-center">Default Hours</th>
+                                    <th scope="col" class="text-center">Department</th>
+                                    <th scope="col" class="text-center">Employment Type</th>
+                                    <th scope="col" class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -42,11 +42,11 @@
                             ?>
                                 <tr>
 									<input type="hidden" id="LeaveId" name="LeaveId" value="LeaveId">
-                                    <td name="leaveName"><?php echo $row['leaveCode']; ?></td>
-                                    <td name="Description"><?php echo $row['leave_name']; ?></td>
-                                    <td name="default_hrs"><?php echo $row['default_hours']; ?></td>
-                                    <td name="dept"><?php echo $row['deptName']; ?></td>
-                                    <td name="dept"><?php echo $row['employment_type']; ?></td>
+                                    <td name="leaveName" class="text-center"><?php echo $row['leaveCode']; ?></td>
+                                    <td name="Description" class="text-center"><?php echo $row['leave_name']; ?></td>
+                                    <td name="default_hrs" class="text-center"><?php echo $row['default_hours']; ?></td>
+                                    <td name="dept" class="text-center"><?php echo $row['deptName']; ?></td>
+                                    <td name="dept" class="text-center"><?php echo $row['employment_type']; ?></td>
                                     <td>
                                         <button type="button" class="btn btn-success updateleavebtn" id="<?php echo $row['LeaveId'];?>" title="Update"><i class="fa fa-pencil-square-o" ></i></button>
                                     </td>
@@ -63,7 +63,7 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
+                <!-- </div> -->
             </div>
         </div>
     </div>
