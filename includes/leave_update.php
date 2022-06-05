@@ -47,7 +47,7 @@
         $update_empleave_row = mysqli_fetch_array($result);
         $date_now = date('Y-m-d H:i:s');
 
-        if($update_stat != 'Approved'){
+        if($update_stat != 'Pending'){
             $updatesql = "UPDATE leave_taken SET leave_status = ?, remarks = ?, date_actioned = ? WHERE period_id = ?";
             $stmt = mysqli_stmt_init($conn);
             if(!mysqli_stmt_prepare($stmt, $updatesql)){
