@@ -14,7 +14,7 @@
         $date = date('Y-m-d');
         $year = date('Y');
     
-        $sql = "SELECT * FROM employees WHERE empId = '$empId'";
+        $sql = "SELECT * FROM employees WHERE empId = '$empid'";
         $result = mysqli_query($conn, $sql);
         $row = mysqli_fetch_array($result);
         if($row['positionid'] != $position || $row['deptid'] != $department || $row['employment_type'] != $employ_type){
@@ -44,6 +44,10 @@
             mysqli_stmt_bind_param($stmt, "siiiissssi", $empid, $biometric,  $department, $position, $schedule, $dateemployed, $employ_type, $date, $status, $id);
             mysqli_stmt_execute($stmt);
         
+            if($status != "Active"){
+                $sql1 = "UPDATE leave_taken SET leave_status = 'Cancelled' WHERE empId = '$empid' AND leave_status = 'Pending'";
+                $result1 = mysqli_query($conn, $sql1);
+            }
             echo "<script>alert('Successfully Updated!') window.location.href = '../Admin/personnel.php'</script>";
         }
     }

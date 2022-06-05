@@ -10,7 +10,7 @@
     }
     //user side
     function userEmailExists($conn, $userEmail){
-        $sql = "SELECT * FROM employees WHERE emailadd = ? ";
+        $sql = "SELECT * FROM employees WHERE emailadd = ? AND status = 'Active'";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)){
             header("location: ../user/login.php?error=stmtfailed");
